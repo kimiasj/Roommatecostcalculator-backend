@@ -1,15 +1,13 @@
 package com.RoommateCostCalculator.RoommateCostCalculator.Controllers;
 
 import com.RoommateCostCalculator.RoommateCostCalculator.Models.User;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.*;
 import java.util.ArrayList;
 
 @RestController
+@RequestMapping("/users")
 public class UsersController {
 
 
@@ -33,8 +31,8 @@ public class UsersController {
         return users;
     }
 
-    @PostMapping("/users")
-    public User postUsers(@RequestParam String name) throws SQLException, ClassNotFoundException {
+    @PostMapping(path = "/{name}")
+    public User postUsers(@PathVariable String name ) throws SQLException, ClassNotFoundException {
         // TODO: how to read values from body
 
         User newUser = new User(name);
