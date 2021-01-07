@@ -5,7 +5,7 @@ import java.util.Date;
 public class Cost {
 
     Double amount;
-    Category category;// TODO: replace with enum
+    Category category;
     User user;
     int id;
     Date date = new Date();

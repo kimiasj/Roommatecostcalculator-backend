@@ -7,9 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 @RestController
-@RequestMapping("/users")
 public class UsersController {
-
 
     @GetMapping("/users")
     public ArrayList<User> getUsers() throws SQLException, ClassNotFoundException {
@@ -31,14 +29,15 @@ public class UsersController {
         return users;
     }
 
-    @PostMapping(path = "/{name}")
-    public User postUsers(@PathVariable String name ) throws SQLException, ClassNotFoundException {
-        // TODO: how to read values from body
-
-        User newUser = new User(name);
+    @PostMapping("/users")
+    public User postUsers(@RequestBody PostUsersRequest postUsersRequest) throws SQLException, ClassNotFoundException {
+        User newUser = new User(postUsersRequest.name);
         newUser.save();
         return newUser;
-
     }
 
+}
+
+class PostUsersRequest {
+    public String name;
 }

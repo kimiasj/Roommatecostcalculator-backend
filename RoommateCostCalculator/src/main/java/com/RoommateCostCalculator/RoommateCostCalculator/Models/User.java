@@ -51,11 +51,8 @@ public class User {
                 "jdbc:mysql://localhost:3306/roommatescostcalculator", "root", "123456");
         Statement stmt = con.createStatement();
         int rs = stmt.executeUpdate("insert into users (name) values (\"" + this.name + "\")");
-        // TODO: how to get inserted row from an insert statement in JDBC
-
-
+        ResultSet keys = stmt.getGeneratedKeys();
+        this.id = keys.getInt(1);
         con.close();
-
-
     }
 }
