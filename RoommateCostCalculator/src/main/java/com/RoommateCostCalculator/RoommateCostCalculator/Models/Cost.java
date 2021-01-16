@@ -8,8 +8,11 @@ public class Cost {
     Double amount;
     String category;
     User user;
-    int id;
+    public int id;
     Date date = new Date();
+    public Cost(){
+
+    }
     public Cost(double newamount){
         amount = newamount;
 
@@ -33,7 +36,7 @@ public class Cost {
         Class.forName("com.mysql.jdbc.Driver");
         Connection con= DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/roommatescostcalculator","root","123456");
-        String sql = "insert into costs (costs,category, createdAt, user_id) values ("  +this.amount+" ,\"" + this.category+ "\" ,\"" +this.date.toString()+ "\", " +this.user.id+")";
+        String sql = "insert into costs (cost, category, createdAt, user_id) values ("  +this.amount+" ,\"" + this.category+ "\" ,\"" +this.date.toString()+ "\", " +this.user.id+")";
         // TODO: fix the sql statement
         // insert into costs (cost, category, createdAt, user_id) values (100, "FOOD", "2021-01-13 00:00:00", 1)
         PreparedStatement pstmt = con.prepareStatement(sql,
@@ -45,6 +48,17 @@ public class Cost {
             generatedKey = r.getInt(1);
             this.id = generatedKey;
         }con.close();
+    }
+
+    public void delete() throws ClassNotFoundException, SQLException{
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/roommatescostcalculator", "root", "123456");
+        String sql = "Delete from costs where id = " + this.id;
+        PreparedStatement pstmt = con.prepareStatement(sql);
+        int rowAffected = pstmt.executeUpdate();
+        con.close();
+
     }
 
 

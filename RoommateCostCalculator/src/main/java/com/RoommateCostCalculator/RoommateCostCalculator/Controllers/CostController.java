@@ -1,10 +1,7 @@
 package com.RoommateCostCalculator.RoommateCostCalculator.Controllers;
 import com.RoommateCostCalculator.RoommateCostCalculator.Models.Cost;
 import com.RoommateCostCalculator.RoommateCostCalculator.Models.User;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.*;
 import java.util.Date;
@@ -29,6 +26,14 @@ public class CostController {
               postCostsRequest.date);
       newCost.saveCost();
       return newCost;
+
+    }
+    @DeleteMapping(value = "/costs/{id}")
+    public String deleteCost(@PathVariable String id) throws ClassNotFoundException, SQLException {
+        Cost newCost = new Cost();
+        newCost.id = Integer.parseInt(id);
+        newCost.delete();
+        return "delete successful";
 
     }
     public static class PostCostsRequest{
