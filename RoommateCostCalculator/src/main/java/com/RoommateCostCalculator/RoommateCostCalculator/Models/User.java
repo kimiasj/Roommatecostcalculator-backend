@@ -66,11 +66,25 @@ public class User {
         }con.close();
 
     }
+    public void delete() throws ClassNotFoundException, SQLException{
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/roommatescostcalculator", "root", "123456");
+        String sql = "Delete from users where id = " + this.id;
+        PreparedStatement pstmt = con.prepareStatement(sql);
+        int rowAffected = pstmt.executeUpdate();
+        con.close();
+
+    }
 
 
     public String getId() {
         String id = Integer.toString(this.id);
         return id;
 
+    }
+
+    public void load(int userId) {
+        // TODO: read user with userId from db and set the correct values on this object
     }
 }

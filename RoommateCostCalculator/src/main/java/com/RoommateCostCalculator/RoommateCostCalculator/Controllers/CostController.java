@@ -13,8 +13,20 @@ import java.util.Date;
 public class CostController {
     @PostMapping("/costs")
     public Cost postCosts(@RequestBody PostCostsRequest postCostsRequest) throws SQLException, ClassNotFoundException {
-
-      Cost newCost = new Cost(postCostsRequest.amount,postCostsRequest.category,postCostsRequest.user,postCostsRequest.date);
+/*
+  {
+    amount: 20,
+    category: "food",
+    userId: 5
+  }
+ */
+        User user = new User();
+        user.load(postCostsRequest.userId);
+      Cost newCost = new Cost(
+              postCostsRequest.amount,
+              postCostsRequest.category,
+              user,
+              postCostsRequest.date);
       newCost.saveCost();
       return newCost;
 
@@ -22,8 +34,7 @@ public class CostController {
     public static class PostCostsRequest{
         public  Double amount;
         public String category;
-        public User user;
-        public int id;
+        public int userId;
         public java.util.Date date = new Date();
 
     }

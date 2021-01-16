@@ -13,8 +13,6 @@ import static org.apache.tomcat.jni.Mmap.delete;
 
 @RestController
 public class UsersController {
-    @Autowired
-    private User nUser;
 
     ArrayList<User> users = new ArrayList<User>();
 
@@ -46,8 +44,12 @@ public class UsersController {
     }
 
     @DeleteMapping(value = "/users/{id}")
-    public void deleteUser(@PathVariable String id) {
-        users.removeIf(t -> t.getId().equals(id));
+    public String deleteUser(@PathVariable String id) throws ClassNotFoundException, SQLException {
+        User newUser = new User();
+        newUser.id = Integer.parseInt(id);
+        newUser.delete();
+        return "delete successful";
+
     }
 
 

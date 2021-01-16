@@ -33,7 +33,9 @@ public class Cost {
         Class.forName("com.mysql.jdbc.Driver");
         Connection con= DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/roommatescostcalculator","root","123456");
-        String sql = "insert into costs "+"values (\""  +this.amount+"\",\" " +this.category+"\",\" " +this.date+ "\",\" " +this.user.id+"\")";
+        String sql = "insert into costs (costs,category, createdAt, user_id) values ("  +this.amount+" ,\"" + this.category+ "\" ,\"" +this.date.toString()+ "\", " +this.user.id+")";
+        // TODO: fix the sql statement
+        // insert into costs (cost, category, createdAt, user_id) values (100, "FOOD", "2021-01-13 00:00:00", 1)
         PreparedStatement pstmt = con.prepareStatement(sql,
                 Statement.RETURN_GENERATED_KEYS);
         int rs=pstmt.executeUpdate();
@@ -41,6 +43,7 @@ public class Cost {
         int generatedKey =0;
         if(r.next()){
             generatedKey = r.getInt(1);
+            this.id = generatedKey;
         }con.close();
     }
 
