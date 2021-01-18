@@ -14,24 +14,14 @@ import static org.apache.tomcat.jni.Mmap.delete;
 @RestController
 public class UsersController {
 
-    ArrayList<User> users = new ArrayList<User>();
+
 
     @GetMapping("/users")
     public ArrayList<User> getUsers() throws SQLException, ClassNotFoundException {
 
-
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/roommatescostcalculator", "root", "123456");
-        Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery("Select * from users ");
-        while (rs.next()) {
-            User dbuser = new User(rs.getString(2), rs.getInt(1));
-            users.add(dbuser);
-
-        }
-
-        con.close();
+        ArrayList<User> users = new ArrayList<User>();
+        User newuser = new User();
+        newuser.getUsers(users);
 
         return users;
     }

@@ -4,6 +4,7 @@ import com.RoommateCostCalculator.RoommateCostCalculator.Models.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Date;
 
 @RestController
@@ -26,6 +27,15 @@ public class CostController {
               postCostsRequest.date);
       newCost.saveCost();
       return newCost;
+
+    }
+    @GetMapping("/costs")
+    public ArrayList<Cost> getCost(@RequestParam String userId)throws ClassNotFoundException,SQLException{
+        User user = new User();
+        user.id = Integer.parseInt(userId);
+        Cost cost = new Cost();
+        cost.loadCosts();
+        return user.costs;
 
     }
     @DeleteMapping(value = "/costs/{id}")

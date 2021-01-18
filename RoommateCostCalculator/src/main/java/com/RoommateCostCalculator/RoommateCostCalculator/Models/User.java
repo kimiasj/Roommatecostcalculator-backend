@@ -10,7 +10,7 @@ import static com.RoommateCostCalculator.RoommateCostCalculator.Models.UserServi
 
 public class User {
     public String name;
-    private ArrayList<Cost> costs;
+    public ArrayList<Cost> costs;
     Double owing;
     public int id;
 
@@ -48,6 +48,23 @@ public class User {
         for (int i = 0; i < costs.size(); i++) {
             System.out.println(name + " - " + costs.get(i).date + " - " + costs.get(i).category + " - " + costs.get(i).amount); // replace with printCost()
         }
+    }
+    public ArrayList<User> getUsers(ArrayList<User> users) throws ClassNotFoundException,SQLException{
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/roommatescostcalculator", "root", "123456");
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("Select * from users ");
+        while (rs.next()) {
+            User dbuser = new User(rs.getString(2), rs.getInt(1));
+            users.add(dbuser);
+
+        }
+
+        con.close();
+
+        return users;
+
     }
 
     public void save() throws ClassNotFoundException, SQLException {
