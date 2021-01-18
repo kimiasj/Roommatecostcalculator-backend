@@ -18,8 +18,8 @@ public class CostController {
     userId: 5
   }
  */
-        User user = new User();
-        user.load(postCostsRequest.userId);
+      User user = new User();
+      user.load(postCostsRequest.userId);
       Cost newCost = new Cost(
               postCostsRequest.amount,
               postCostsRequest.category,
@@ -31,11 +31,10 @@ public class CostController {
     }
     @GetMapping("/costs")
     public ArrayList<Cost> getCost(@RequestParam String userId)throws ClassNotFoundException,SQLException{
-        User user = new User();
-        user.id = Integer.parseInt(userId);
+        int userIdInt = Integer.parseInt(userId);
         Cost cost = new Cost();
         cost.loadCosts();
-        return user.costs;
+        return 
 
     }
     @DeleteMapping(value = "/costs/{id}")

@@ -1,5 +1,6 @@
 package com.RoommateCostCalculator.RoommateCostCalculator.Models;
 import com.RoommateCostCalculator.RoommateCostCalculator.Models.Cost;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mysql.cj.protocol.Resultset;
 
 import java.sql.*;
@@ -10,6 +11,7 @@ import static com.RoommateCostCalculator.RoommateCostCalculator.Models.UserServi
 
 public class User {
     public String name;
+    @JsonIgnore
     public ArrayList<Cost> costs;
     Double owing;
     public int id;
@@ -21,6 +23,7 @@ public class User {
         costs = new ArrayList<Cost>();
     }
     public User (){
+        costs = new ArrayList<Cost>();
     }
 
     public User(String name) {
@@ -28,13 +31,12 @@ public class User {
         costs = new ArrayList<Cost>();
     }
 
-
     public void addCost(Cost c) {
         c.user = this;
         costs.add(c);
     }
 
-    public Double getCosts() {
+    public Double getTotalCosts() {
         Double total = 0.0;
         for (int x = 0; x < costs.size(); x++) {
             total = total + costs.get(x).amount;
@@ -101,7 +103,18 @@ public class User {
 
     }
 
-    public void load(int userId) {
+    public void load(int userId) throws ClassNotFoundException, SQLException {
         // TODO: read user with userId from db and set the correct values on this object
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/roommatescostcalculator", "root", "123456");
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("Select * from users where ID =" + userId);
+        while (rs.next()) {
+            this.name = rs.getString(2);
+            this.id = rs.getInt(1);
+        }
+        con.close();
+
     }
 }

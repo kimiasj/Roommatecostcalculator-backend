@@ -1,8 +1,11 @@
 package com.RoommateCostCalculator.RoommateCostCalculator.Models;
 
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class Cost {
 
@@ -37,7 +40,7 @@ public class Cost {
         Class.forName("com.mysql.jdbc.Driver");
         Connection con = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/roommatescostcalculator", "root", "123456");
-        String sql = "insert into costs (cost, category, createdAt, user_id) values (" + this.amount + " ,\"" + this.category + "\" ,\"" + this.date.toString() + "\", " + this.user.id + ")";
+        String sql = "insert into costs (cost, category, createdAt, user_id) values (" + this.amount + " ,\"" + this.category + "\" ,\"" + this.convertTime() + "\", " + this.user.id + ")";
         // TODO: fix the sql statement
         // insert into costs (cost, category, createdAt, user_id) values (100, "FOOD", "2021-01-13 00:00:00", 1)
         PreparedStatement pstmt = con.prepareStatement(sql,
@@ -54,7 +57,7 @@ public class Cost {
 
     }
 
-    public void loadCosts() throws SQLException , ClassNotFoundException{
+    public ArrayList<User> loadCosts() throws SQLException , ClassNotFoundException{
 
         ArrayList<User> users = new ArrayList<>();
         User newuser = new User();
@@ -73,6 +76,7 @@ public class Cost {
                 }
             }
         }
+        return users;
     }
 
     public void delete() throws ClassNotFoundException, SQLException{
@@ -84,6 +88,13 @@ public class Cost {
         int rowAffected = pstmt.executeUpdate();
         con.close();
 
+    }
+    public String convertTime(){
+        TimeZone tz = TimeZone.getTimeZone("UTC");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm"); // Quoted "Z" to indicate UTC, no timezone offset
+        df.setTimeZone(tz);
+        String nowAsISO = df.format(this.date);
+        return nowAsISO;
     }
 
 

@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.*;
 import java.util.ArrayList;
 
-import static org.apache.tomcat.jni.Mmap.delete;
-
 @RestController
 public class UsersController {
 
