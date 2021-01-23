@@ -32,11 +32,15 @@ public class CostController {
     @GetMapping("/costs")
     public ArrayList<Cost> getCost(@RequestParam String userId)throws ClassNotFoundException,SQLException{
         int userIdInt = Integer.parseInt(userId);
+        User user = new User();
+        user.getOneUser(userIdInt);
         Cost cost = new Cost();
-        cost.loadCosts();
-        return 
+
+        return cost.loadCosts(user);
+
 
     }
+    //owing load users- for loop each user- new cost-loadcost(userid)- userarraylist.add(cost)
     @DeleteMapping(value = "/costs/{id}")
     public String deleteCost(@PathVariable String id) throws ClassNotFoundException, SQLException {
         Cost newCost = new Cost();

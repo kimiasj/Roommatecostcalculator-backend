@@ -1,4 +1,5 @@
 package com.RoommateCostCalculator.RoommateCostCalculator.Models;
+
 import com.RoommateCostCalculator.RoommateCostCalculator.Models.Cost;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mysql.cj.protocol.Resultset;
@@ -22,7 +23,12 @@ public class User {
         this.name = name;
         costs = new ArrayList<Cost>();
     }
-    public User (){
+
+    public User(int id) {
+        this.id = id;
+    }
+
+    public User() {
         costs = new ArrayList<Cost>();
     }
 
@@ -51,7 +57,8 @@ public class User {
             System.out.println(name + " - " + costs.get(i).date + " - " + costs.get(i).category + " - " + costs.get(i).amount); // replace with printCost()
         }
     }
-    public ArrayList<User> getUsers(ArrayList<User> users) throws ClassNotFoundException,SQLException{
+
+    public ArrayList<User> getUsers(ArrayList<User> users) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.jdbc.Driver");
         Connection con = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/roommatescostcalculator", "root", "123456");
@@ -78,14 +85,30 @@ public class User {
                 Statement.RETURN_GENERATED_KEYS);
         int rowAffected = pstmt.executeUpdate();
         ResultSet rs = pstmt.getGeneratedKeys();
-        int generatedKey =0;
-        if(rs.next()){
+        int generatedKey = 0;
+        if (rs.next()) {
             generatedKey = rs.getInt(1);
             this.id = generatedKey;
-        }con.close();
+        }
+        con.close();
 
     }
-    public void delete() throws ClassNotFoundException, SQLException{
+
+    public void getOneUser(int id) throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/roommatescostcalculator", "root", "123456");
+        Statement stmt = con.createStatement();
+        String sql = "Select * from users where id = " + id;
+        ResultSet rs = stmt.executeQuery(sql);
+        while (rs.next()) {
+            this.id = rs.getInt(1);
+            this.name = rs.getString(2);
+        }
+
+    }
+
+    public void delete() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.jdbc.Driver");
         Connection con = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/roommatescostcalculator", "root", "123456");

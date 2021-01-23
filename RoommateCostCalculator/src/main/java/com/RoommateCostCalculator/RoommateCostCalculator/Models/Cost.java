@@ -1,5 +1,7 @@
 package com.RoommateCostCalculator.RoommateCostCalculator.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -11,6 +13,7 @@ public class Cost {
 
     public Double amount;
     public String category;
+    @JsonIgnore
     public User user;
     public int id;
     public Date date = new Date();
@@ -57,26 +60,19 @@ public class Cost {
 
     }
 
-    public ArrayList<User> loadCosts() throws SQLException , ClassNotFoundException{
-
-        ArrayList<User> users = new ArrayList<>();
-        User newuser = new User();
-        newuser.getUsers(users);
+    public ArrayList<Cost> loadCosts(User user) throws SQLException , ClassNotFoundException{
+        this.id = user.id;
         Class.forName("com.mysql.jdbc.Driver");
         Connection con= DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/roommatescostcalculator","root","123456");
         Statement stmt=con.createStatement();
-        ResultSet rs=stmt.executeQuery("Select * from costs ");
+        ResultSet rs=stmt.executeQuery("Select * from costs where user_id = " + id);
+        ArrayList<Cost> costs = new ArrayList<>();
         while(rs.next()){
-            for (User i:users
-            ) {
-                if (i.id == rs.getInt(5)){
-                    Cost dbcost = new Cost(rs.getInt(1),rs.getDouble(2),String.valueOf(rs.getString(3)),i,rs.getDate(4));
-                    i.addCost(dbcost);
-                }
-            }
+                    Cost dbcost = new Cost(rs.getInt(1),rs.getDouble(2),String.valueOf(rs.getString(3)),this.user,rs.getDate(4));
+                    costs.add(dbcost);
         }
-        return users;
+        return costs;
     }
 
     public void delete() throws ClassNotFoundException, SQLException{
