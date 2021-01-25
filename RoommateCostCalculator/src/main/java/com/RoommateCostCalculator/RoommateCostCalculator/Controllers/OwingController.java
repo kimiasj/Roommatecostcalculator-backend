@@ -8,11 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 @RestController
 public class OwingController {
     @GetMapping("/users/owing/{id}")
-    public String getOwing (@PathVariable String id) throws SQLException, ClassNotFoundException {
+    public String getOwing (@PathVariable String id) throws SQLException, ClassNotFoundException{
         //owing load users- for loop each user- new cost-loadcost(userid)- userarraylist.add(cost)
         User user = new User();
         ArrayList<User> userList = new ArrayList<>();

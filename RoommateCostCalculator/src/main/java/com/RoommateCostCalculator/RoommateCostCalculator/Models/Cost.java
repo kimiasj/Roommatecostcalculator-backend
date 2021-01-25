@@ -72,6 +72,7 @@ public class Cost {
                     Cost dbcost = new Cost(rs.getInt(1),rs.getDouble(2),String.valueOf(rs.getString(3)),this.user,rs.getDate(4));
                     costs.add(dbcost);
         }
+        user.costs = costs;
         return costs;
     }
 
