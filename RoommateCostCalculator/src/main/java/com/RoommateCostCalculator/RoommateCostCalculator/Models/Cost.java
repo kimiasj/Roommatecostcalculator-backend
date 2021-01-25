@@ -61,18 +61,18 @@ public class Cost {
     }
 
     public ArrayList<Cost> loadCosts(User user) throws SQLException , ClassNotFoundException{
-        this.id = user.id;
+        this.user = user;
         Class.forName("com.mysql.jdbc.Driver");
         Connection con= DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/roommatescostcalculator","root","123456");
         Statement stmt=con.createStatement();
-        ResultSet rs=stmt.executeQuery("Select * from costs where user_id = " + id);
+        ResultSet rs=stmt.executeQuery("Select * from costs where user_id = " + this.user.id);
         ArrayList<Cost> costs = new ArrayList<>();
         while(rs.next()){
                     Cost dbcost = new Cost(rs.getInt(1),rs.getDouble(2),String.valueOf(rs.getString(3)),this.user,rs.getDate(4));
                     costs.add(dbcost);
         }
-        user.costs = costs;
+        this.user.costs = costs;
         return costs;
     }
 
