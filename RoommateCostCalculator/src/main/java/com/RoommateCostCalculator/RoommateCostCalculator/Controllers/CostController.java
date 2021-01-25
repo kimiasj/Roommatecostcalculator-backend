@@ -40,7 +40,7 @@ public class CostController {
 
 
     }
-    //owing load users- for loop each user- new cost-loadcost(userid)- userarraylist.add(cost)
+
     @DeleteMapping(value = "/costs/{id}")
     public String deleteCost(@PathVariable String id) throws ClassNotFoundException, SQLException {
         Cost newCost = new Cost();

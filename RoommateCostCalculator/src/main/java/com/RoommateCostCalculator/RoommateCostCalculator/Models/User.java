@@ -14,7 +14,7 @@ public class User {
     public String name;
     @JsonIgnore
     public ArrayList<Cost> costs;
-    Double owing;
+    public Double owing;
     public int id;
 
 
@@ -42,8 +42,8 @@ public class User {
         costs.add(c);
     }
 
-    public Double getTotalCosts() {
-        Double total = 0.0;
+    public double getTotalCosts() {
+        double total = 0.0;
         for (int x = 0; x < costs.size(); x++) {
             total = total + costs.get(x).amount;
 
